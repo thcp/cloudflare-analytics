@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloudflare-exporter
+  namespace: cloudflare-exporter
+data:
+  config.ini: |
+    [APP]
+    # Interval in seconds, defaults to 30 min
+    fetch_interval = 1800
+    [INFLUXDB]
+    host = influxdb
+    port = 8086
+    username = cloudflare
+    password = 
+    database = cloudflare
+    
+    [CLOUDFLARE]
+    token = 
+    api_url = https://api.cloudflare.com
+    analytics_uri_prefix = client/v4/zones/{id}/analytics/dashboard?since={interval}&continuous=false
+    #Freeplans doesnt support analytics.
+    free_plans = "domain.com"

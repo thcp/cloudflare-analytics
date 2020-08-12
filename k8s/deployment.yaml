@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflare-exporter
+  name: cloudflare-exporter
+  namespace: cloudflare-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-exporter
+  template:
+    metadata:
+      labels:
+        app: cloudflare-exporter
+    spec:
+      containers:
+      - name: cloudflare-exporter
+        image: thclpr/cloudflare-analytics-exporter:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 10m
+            memory: 8Mi
+        volumeMounts:
+        - name: cloudflare-exporter
+          mountPath: /app/config.ini
+          subPath: config.ini
+          readOnly: true  
+      nodeSelector:
+        agentpool: monitoring
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - name: cloudflare-exporter
+        configMap:
+          name: cloudflare-exporter
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: influxdb
+  name: influxdb
+  namespace: cloudflare-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: influxdb
+  template:
+    metadata:
+      labels:
+        app: influxdb
+    spec:
+      containers:
+        - name: influxdb
+          image: influxdb:1.8-alpine
+          imagePullPolicy: Always
+          env:
+          - name: INFLUXDB_DB
+            value: cloudflare
+          - name: INFLUXDB_ADMIN_USER
+            value: cloudflare
+          - name: INFLUXDB_ADMIN_PASSWORD
+            value: cloudflare
+          resources:
+            limits:
+              cpu: 100m
+              memory: 64Mi
+            requests:
+              cpu: 10m
+              memory: 8Mi
+          ports:
+            - containerPort: 8086
+              name: influxdb
+          

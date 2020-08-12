@@ -1,0 +1,12 @@
+apiVersion: 1
+datasources:
+  - name: CloudflareExporter
+    type: influxdb
+    access: proxy
+    database: cloudflare
+    user: cloudflare
+    secureJsonData:
+      password: localtestsonly
+    url: http://influxdb:8086
+    isDefault: true
+    editable: true
