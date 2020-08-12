@@ -104,7 +104,7 @@ docker-compose down
 
 ```
 
-### Development mode
+### Production mode
 
 Still in progress.
   
