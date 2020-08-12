@@ -1,6 +1,6 @@
 # Cloudflare Analytics parser and dashboard 
 
-![](http://i.imgur.com/YcOpGGq.png)
+![](http://i.imgur.com/DnGdaj2.png)
 
   
 
