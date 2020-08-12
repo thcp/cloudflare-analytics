@@ -1,0 +1,10 @@
+# Blacklist everything
+/*
+
+# Whitelist readme and ignore file
+!.gitignore
+!app
+!grafana
+!k8s
+!LICENSE
+!README.md
