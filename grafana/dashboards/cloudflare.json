@@ -16,8 +16,8 @@
   "editable": true,
   "gnetId": 12167,
   "graphTooltip": 0,
-  "id": 98,
-  "iteration": 1597233572230,
+  "id": 99,
+  "iteration": 1597233879855,
   "links": [],
   "panels": [
     {
@@ -143,7 +143,7 @@
         "fontAutoScale": true,
         "fontSize": 12,
         "fontType": "Roboto",
-        "globalDecimals": 2,
+        "globalDecimals": 0,
         "globalDisplayMode": "all",
         "globalDisplayTextTriggeredEmpty": "OK",
         "globalOperatorName": "avg",
@@ -154,7 +154,7 @@
         "maxMetrics": 0,
         "polygonBorderColor": "black",
         "polygonBorderSize": 2,
-        "polygonGlobalFillColor": "#0a50a1",
+        "polygonGlobalFillColor": "#37872D",
         "radius": "",
         "radiusAutoSize": true,
         "rowAutoSize": true,
@@ -1749,5 +1749,5 @@
   "timezone": "utc",
   "title": "Cloudflare Analytics",
   "uid": "8rRtrxSGz",
-  "version": 2
+  "version": 1
 }
