@@ -1,4 +1,4 @@
-# Cloudflar Analytics parser and dashboard 
+# Cloudflare Analytics parser and dashboard 
 
 ![](http://i.imgur.com/YcOpGGq.png)
 
