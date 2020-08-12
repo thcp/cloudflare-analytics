@@ -64,8 +64,6 @@ def parse_cf_output(zone_name, data):
     #
 
 
-
-
 def fetch_analytics_by_zone():
     interval = datetime.datetime.now() - datetime.timedelta(seconds=fetch_interval)
     interval_window = interval.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -75,14 +73,14 @@ def fetch_analytics_by_zone():
         uri = cf_analytics_uri_prefix.format(id=zone_id, interval=interval_window)
         zone_info = http_request(uri)
         print("Retrieving: {}".format(zone_name))
+        print(cf_zone_info)
         parse_cf_output(zone_name, zone_info)
 
 
 if __name__ == '__main__':
-    sec_to_min = fetch_interval // 60
     while True:
         fetch_analytics_by_zone()
-        time.sleep(sec_to_min)
+        time.sleep(fetch_interval)
 
 
 
