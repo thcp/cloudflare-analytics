@@ -104,6 +104,9 @@ docker-compose down
 
 ```
 
+### Development mode
+
+Still in progress.
   
 
 #### Ports
