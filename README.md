@@ -82,14 +82,6 @@ docker-compose up -d
 
 ```
 
-Personally, for quick disposable tests I tend to use:
-
-```
-
-docker system prune -f ; docker-compose up
-
-```
-
   
 
 To stop the app:
