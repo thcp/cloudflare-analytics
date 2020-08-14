@@ -15,7 +15,7 @@ cf_freeplans = get_config('CLOUDFLARE', 'free_plans')
 def cf_zone_info():
     zone_info = []
     cf = CloudFlare.CloudFlare(token=cf_token)
-    zones = cf.zones.get()
+    zones = cf.zones.get(params = {'per_page':100})
     for zone in zones:
         zone_data = {
             'zone_name': zone['name'],
@@ -73,7 +73,7 @@ def fetch_analytics_by_zone():
         uri = cf_analytics_uri_prefix.format(id=zone_id, interval=interval_window)
         zone_info = http_request(uri)
         print("Retrieving: {}".format(zone_name))
-        print(cf_zone_info)
+        print(cf_zone_info())
         parse_cf_output(zone_name, zone_info)
 
 
