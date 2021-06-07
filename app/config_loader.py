@@ -1,5 +1,7 @@
-from configparser import ConfigParser
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
+from configparser import ConfigParser
 
 def get_config(section, key):
     ini_file = 'config.ini'

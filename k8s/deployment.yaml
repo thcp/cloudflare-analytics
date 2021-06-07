@@ -2,23 +2,44 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cloudflare-exporter
-  name: cloudflare-exporter
+    app: cloudflare-analytics-exporter
+  name: cloudflare-analytics-exporter
   namespace: cloudflare-exporter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cloudflare-exporter
+      app: cloudflare-analytics-exporter
   template:
     metadata:
       labels:
-        app: cloudflare-exporter
+        app: cloudflare-analytics-exporter
     spec:
       containers:
-      - name: cloudflare-exporter
-        image: thclpr/cloudflare-analytics-exporter:latest
+      - name: cloudflare-analytics-exporter
+        image: YOUR_REGISTRY_HERE/cloudflare-analytics-exporter:latest
         imagePullPolicy: Always
+        env:
+          - name: CF_AUTH_EMAIL
+            valueFrom:
+              secretKeyRef:
+                name: clouflare
+                key: CF_AUTH_EMAIL
+          - name: CF_AUTH_KEY
+            valueFrom:
+              secretKeyRef:
+                name: clouflare
+                key: CF_AUTH_KEY
+          - name: CF_GLOBAL_KEY
+            valueFrom:
+              secretKeyRef:
+                name: clouflare
+                key: CF_GLOBAL_KEY
+          - name: INFLUXDB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: clouflare
+                key: INFLUXDB_PASSWORD
         resources:
           limits:
             cpu: 100m
@@ -27,54 +48,14 @@ spec:
             cpu: 10m
             memory: 8Mi
         volumeMounts:
-        - name: cloudflare-exporter
+        - name: config
           mountPath: /app/config.ini
           subPath: config.ini
           readOnly: true  
       nodeSelector:
-        agentpool: monitoring
+        agentpool: default
       terminationGracePeriodSeconds: 60
       volumes:
-      - name: cloudflare-exporter
+      - name: config
         configMap:
-          name: cloudflare-exporter
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: influxdb
-  name: influxdb
-  namespace: cloudflare-exporter
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: influxdb
-  template:
-    metadata:
-      labels:
-        app: influxdb
-    spec:
-      containers:
-        - name: influxdb
-          image: influxdb:1.8-alpine
-          imagePullPolicy: Always
-          env:
-          - name: INFLUXDB_DB
-            value: cloudflare
-          - name: INFLUXDB_ADMIN_USER
-            value: cloudflare
-          - name: INFLUXDB_ADMIN_PASSWORD
-            value: cloudflare
-          resources:
-            limits:
-              cpu: 100m
-              memory: 64Mi
-            requests:
-              cpu: 10m
-              memory: 8Mi
-          ports:
-            - containerPort: 8086
-              name: influxdb
-          
+          name: cloudflare-analytics-exporter

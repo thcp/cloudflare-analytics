@@ -10,28 +10,38 @@ services:
       - INFLUXDB_DB=cloudflare
       - INFLUXDB_ADMIN_USER=${INFLUXDB_ADMIN_USER}
       - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_PASSWORD}
+      
   grafana:
     image: grafana/grafana:latest
     ports:
       - '3000:3000'
-    volumes:
-      # - grafana-storage:/var/lib/grafana
-      - ../grafana:/etc/grafana/provisioning/
-    depends_on:
-      - influxdb
     environment:
+      - INFLUXDB_DATABASE=${INFLUXDB_DATABASE}
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
-      - GF_INSTALL_PLUGINS=${GRAFANA_PLUGINS}
+      - GF_INSTALL_PLUGINS=${GRAFANA_PLUGINS}    
+    volumes:
+      # - grafana-storage:/var/lib/grafana
+      - ./grafana:/etc/grafana/provisioning/
+    depends_on:
+      - influxdb  
   cloudflare-analytics:
+    image: cloudflare-analytics-exporter:latest
     build:
       context: .
       dockerfile: Dockerfile
     depends_on:
       - influxdb
-    image: thclpr/cloudflare-analytics-exporter:latest
+    environment:
+      - INFLUXDB_DATABASE=${INFLUXDB_DATABASE}
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+      - GF_INSTALL_PLUGINS=${GRAFANA_PLUGINS}
+      - CF_AUTH_EMAIL=${CF_AUTH_EMAIL}
+      - CF_AUTH_KEY=${CF_AUTH_KEY}
+      - CF_GLOBAL_KEY=${CF_GLOBAL_KEY}        
     volumes:
-      - ./config.ini:/app/config.ini:ro
+      - ./app/config.ini:/app/config.ini:ro
 # volumes:
 #   influxdb-storage:
 #   grafana-storage:

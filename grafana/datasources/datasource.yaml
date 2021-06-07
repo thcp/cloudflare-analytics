@@ -6,7 +6,7 @@ datasources:
     database: cloudflare
     user: cloudflare
     secureJsonData:
-      password: localtestsonly
+      password: cloudflare
     url: http://influxdb:8086
     isDefault: true
     editable: true
