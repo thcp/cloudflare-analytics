@@ -8,3 +8,5 @@
 !k8s
 !LICENSE
 !README.md
+!Dockerfile
+!docker-compose.yml
